@@ -20,4 +20,33 @@
             {!! $discusion->content !!}
         </div>
     </div>
+    <div class="card my-3">
+        <div class="card-header">
+            <h4>add reply</h4>
+        </div>
+        <div class="card-body">
+            @auth
+            <form action="{{ route('reply.store',$discusion->slug)}}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="reply"> reply</label>
+                    <input id="reply" type="hidden" name="reply">
+                    <trix-editor input="reply"></trix-editor>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="add replay" class="btn btn-success">
+                </div>
+            </form>
+            @else
+            <a href="{{ route('login') }}" class="btn btn-primary mb-2" style="width: 100%">login to Add reply</a>
+            @endauth
+        </div>
+    </div>
+    </div>
+@endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.css">
+@endsection
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.js" defer></script>
 @endsection

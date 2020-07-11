@@ -9,7 +9,7 @@
 
     <title>@yield('title')</title>
 
-    
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -51,6 +51,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img src="{{ Gravatar::src(auth()->user()->email) }}" style="width=40px ; height:40px; border-radius:50%">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -71,18 +72,18 @@
                 </div>
             </div>
         </nav>
-        
+
         @auth
         <div class="container my-5">
             <div class="row">
-                <div class="col-md-4"> 
+                <div class="col-md-4">
                     <a href="{{ route('discussion.create') }}" class="btn btn-primary mb-2" style="width: 100%">Add Descussion </a>
                     <div class="card">
                         <div class="card-header">channels</div>
                         <div class="card-body">
                             <ul class="list-group">
                                 @foreach ($channels as $channel)
-                            <li class="list-group-item"> 
+                            <li class="list-group-item">
                                 <a href="" class="text-decoration-none">
                                     {{ $channel->name }}
                                 </a>
@@ -94,18 +95,57 @@
                 </div>
                 <div class="col-md-8">
                         @yield('content')
-                    
+
                 </div>
-                
+
             </div>
         </div>
-        @else 
+        @else
         <div class="container my-5">
-            <div class="alert alert-danger"> you needed to sign in or register </div>
-            @yield('content')
+            @if (!in_array(request()->path() ,
+            ["login",
+            "register"
+            ]))
+            <div class="alert alert-danger"> to Add discussion  you needed to sign in or register  </div>
+            @endif
+
+            @if (!in_array(request()->path() ,
+            ["login",
+            "password/confirm",
+            "password/email",
+            "password/request",
+            "password/update",
+            "password/reset ",
+            "register"
+            ]))
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="{{ route('login') }}" class="btn btn-primary mb-2" style="width: 100%">login to Add Descussion </a>
+                        <div class="card">
+                            <div class="card-header">channels</div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    @foreach ($channels as $channel)
+                                <li class="list-group-item">
+                                    <a href="" class="text-decoration-none">
+                                        {{ $channel->name }}
+                                    </a>
+                                </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                            @yield('content')
+                    </div>
+                </div>
+            @else
+                @yield('content')
+            @endif
         </div>
         @endauth
-        
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

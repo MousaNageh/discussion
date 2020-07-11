@@ -18,6 +18,31 @@
         <div class="card-body">
             <h4 class="h4 text-center border-bottom " style="padding:10px">{{ $discusion->title }} </h2>
             {!! $discusion->content !!}
+            @if($replies->count()>0)
+                <div class="crad" style="padding-bottom: 6px" >
+                    <div class="card-header">
+                        <h3>read replies</h3>
+                    </div>
+                    <div class="card-body">
+                        @foreach ($replies as $reply)
+                            <div class="alert alert-success">
+                                <h5 class="mb-5">
+                                    <img src="{{ Gravatar::src($reply->owner->email) }}" style="width=40px ; height:40px; border-radius:50%">
+                                    {{ $reply->owner->name}}
+                                </h5>
+                                <div class="my-4 font-italic">
+                                    {!! $reply->content !!}
+                                </div>
+                                <div class=" font-italic font-weight-bold">
+                                replied at : {{   $reply->created_at  }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{ $replies->links() }}
+                </div>
+            @endif
         </div>
     </div>
     <div class="card my-3">
@@ -29,9 +54,9 @@
             <form action="{{ route('reply.store',$discusion->slug)}}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="reply"> reply</label>
-                    <input id="reply" type="hidden" name="reply">
-                    <trix-editor input="reply"></trix-editor>
+                    <label for="content"> reply</label>
+                    <input id="content" type="hidden" name="content">
+                    <trix-editor input="content"></trix-editor>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="add replay" class="btn btn-success">

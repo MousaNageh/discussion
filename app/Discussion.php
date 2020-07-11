@@ -10,4 +10,7 @@ class Discussion extends Model
     {
         return "slug" ;
     }
+    public function reply(){
+        return $this->hasMany(Reply::class) ;
+    }
 }

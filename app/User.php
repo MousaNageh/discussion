@@ -38,6 +38,9 @@ class User extends Authenticatable
     ];
     public function discussions()
     {
-        return $this->hasMany(Discussion::class) ; 
+        return $this->hasMany(Discussion::class) ;
+    }
+    public function reply(){
+        return $this->hasMany(Reply::class) ;
     }
 }

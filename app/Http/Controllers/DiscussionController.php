@@ -59,7 +59,9 @@ class DiscussionController extends Controller
      */
     public function show(Discussion $discussion)
     {
-        return view("discussions.show")->with("discusion",$discussion);
+        return view("discussions.show")
+        ->with("discusion",$discussion)
+        ->with("replies",$discussion->reply()->paginate(2));
     }
 
     /**
@@ -70,7 +72,7 @@ class DiscussionController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -82,7 +84,7 @@ class DiscussionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -93,6 +95,6 @@ class DiscussionController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

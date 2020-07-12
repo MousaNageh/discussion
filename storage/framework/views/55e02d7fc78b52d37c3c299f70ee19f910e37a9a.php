@@ -23,20 +23,17 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
+                <a class="navbar-brand" href="<?php echo e(url('/discussion')); ?>">
                     <?php echo e(config('app.name', 'Laravel')); ?>
 
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -55,7 +52,6 @@
                                     <img src="<?php echo e(Gravatar::src(auth()->user()->email)); ?>" style="width=40px ; height:40px; border-radius:50%">
                                     <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
                                         onclick="event.preventDefault();
@@ -63,7 +59,6 @@
                                         <?php echo e(__('Logout')); ?>
 
                                     </a>
-
                                     <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                                         <?php echo csrf_field(); ?>
                                     </form>
@@ -104,6 +99,10 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     <?php endif; ?>
+                    <?php if(session()->has('success')): ?>
+                                <div class="alert alert-success"><?php echo e(session()->get('success')); ?></div>
+                    <?php endif; ?>
+
                         <?php echo $__env->yieldContent('content'); ?>
 
                 </div>

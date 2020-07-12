@@ -14,12 +14,13 @@ class CreateDiscussionsTable extends Migration
     public function up()
     {
         Schema::create('discussions', function (Blueprint $table) {
-            $table->bigIncrements("id") ; 
-            $table->integer("user_id") ; 
-            $table->string("title") ; 
-            $table->text("content") ; 
-            $table->string("slug")->unique() ; 
-            $table->integer("channel_id") ; 
+            $table->bigIncrements("id") ;
+            $table->integer("user_id") ;
+            $table->string("title") ;
+            $table->text("content") ;
+            $table->integer("reply_id")->nullable() ;
+            $table->string("slug")->unique() ;
+            $table->integer("channel_id") ;
             $table->timestamps();
         });
     }

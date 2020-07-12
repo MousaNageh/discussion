@@ -19,19 +19,57 @@
             <h4 class="h4 text-center border-bottom " style="padding:10px"><?php echo e($discusion->title); ?> </h2>
             <?php echo $discusion->content; ?>
 
+            <?php if($discusion->bestReply): ?>
+                <div class="alert alert-success">
+                    <h4 class="text-center">best reply</h5>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class=" font-weight-bold">
+                                <img src="<?php echo e(Gravatar::src($discusion->bestReply->owner->email)); ?>" style="width=40px ; height:40px; border-radius:50%">
+                                <?php echo e($discusion->bestReply->owner->name); ?>
+
+                            </div>
+                            <div class="card-body">
+                                <?php echo $discusion->bestReply->content; ?>
+
+                                <div class=" font-italic font-weight-bold">
+                                    replied at : <?php echo e($discusion->bestReply->created_at); ?>
+
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <?php if($replies->count()>0): ?>
                 <div class="crad" style="padding-bottom: 6px" >
                     <div class="card-header">
-                        <h3>read replies</h3>
+                        <?php if($discusion->bestReply): ?>
+                        <h3 class="text-center">read more replies</h3>
+                        <?php else: ?>
+                        <h3 class="text-center">read  replies</h3>
+                        <?php endif; ?>
+
                     </div>
                     <div class="card-body">
                         <?php $__currentLoopData = $replies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reply): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="alert alert-success">
-                                <h5 class="mb-5">
-                                    <img src="<?php echo e(Gravatar::src($reply->owner->email)); ?>" style="width=40px ; height:40px; border-radius:50%">
-                                    <?php echo e($reply->owner->name); ?>
+                                <div class="d-flex justify-content-between">
+                                    <div class=" font-weight-bold">
+                                        <img src="<?php echo e(Gravatar::src($reply->owner->email)); ?>" style="width=40px ; height:40px; border-radius:50%">
+                                        <?php echo e($reply->owner->name); ?>
 
-                                </h5>
+                                    </div>
+                                    <div>
+                                        <?php if(auth()->user()->id==$discusion->user_id): ?>
+                                        <form action="<?php echo e(route('discussion.reply.bestReplay',['discussion'=>$discusion->slug,'reply'=>$reply->id])); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="submit" value="make it a best reply" class="btn btn-secondary btn-sm">
+                                        </form>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                                 <div class="my-4 font-italic">
                                     <?php echo $reply->content; ?>
 
@@ -43,7 +81,6 @@
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-
                     <?php echo e($replies->links()); ?>
 
                 </div>

@@ -18,18 +18,53 @@
         <div class="card-body">
             <h4 class="h4 text-center border-bottom " style="padding:10px">{{ $discusion->title }} </h2>
             {!! $discusion->content !!}
+            @if ($discusion->bestReply)
+                <div class="alert alert-success">
+                    <h4 class="text-center">best reply</h5>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class=" font-weight-bold">
+                                <img src="{{ Gravatar::src($discusion->bestReply->owner->email) }}" style="width=40px ; height:40px; border-radius:50%">
+                                {{ $discusion->bestReply->owner->name}}
+                            </div>
+                            <div class="card-body">
+                                {!! $discusion->bestReply->content   !!}
+                                <div class=" font-italic font-weight-bold">
+                                    replied at : {{   $discusion->bestReply->created_at  }}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @if($replies->count()>0)
                 <div class="crad" style="padding-bottom: 6px" >
                     <div class="card-header">
-                        <h3>read replies</h3>
+                        @if ($discusion->bestReply)
+                        <h3 class="text-center">read more replies</h3>
+                        @else
+                        <h3 class="text-center">read  replies</h3>
+                        @endif
+
                     </div>
                     <div class="card-body">
                         @foreach ($replies as $reply)
                             <div class="alert alert-success">
-                                <h5 class="mb-5">
-                                    <img src="{{ Gravatar::src($reply->owner->email) }}" style="width=40px ; height:40px; border-radius:50%">
-                                    {{ $reply->owner->name}}
-                                </h5>
+                                <div class="d-flex justify-content-between">
+                                    <div class=" font-weight-bold">
+                                        <img src="{{ Gravatar::src($reply->owner->email) }}" style="width=40px ; height:40px; border-radius:50%">
+                                        {{ $reply->owner->name}}
+                                    </div>
+                                    <div>
+                                        @if (auth()->user()->id==$discusion->user_id)
+                                        <form action="{{ route('discussion.reply.bestReplay',['discussion'=>$discusion->slug,'reply'=>$reply->id]) }}" method="POST">
+                                            @csrf
+                                            <input type="submit" value="make it a best reply" class="btn btn-secondary btn-sm">
+                                        </form>
+                                        @endif
+                                    </div>
+                                </div>
                                 <div class="my-4 font-italic">
                                     {!! $reply->content !!}
                                 </div>
@@ -39,7 +74,6 @@
                             </div>
                         @endforeach
                     </div>
-
                     {{ $replies->links() }}
                 </div>
             @endif

@@ -22,4 +22,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/discussion', 'DiscussionController');
 Route::resource('/discussion/{discussion}/reply', 'RepliesController');
+Route::get("users/notifcations","UserController@notifcations")->name("user.notifications") ;
 Route::post("discussion/{discussion}/reply/{reply}/mark-as-best-reply","DiscussionController@reply")->name("discussion.reply.bestReplay");
+

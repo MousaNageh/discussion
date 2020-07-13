@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Discussion;
 use App\Http\Requests\CreateReplyRequest;
+use App\Notifications\NewReplyAdded;
 use App\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -38,11 +39,11 @@ class RepliesController extends Controller
      */
     public function store(CreateReplyRequest $request,Discussion $discussion)
     {
-
         auth()->user()->reply()->create([
             "content"=>$request->content,
             "discussion_id"=>$discussion->id
         ]);
+        $discussion->author->notify(new NewReplyAdded($discussion));
         return redirect(URL::previous()) ;
     }
 

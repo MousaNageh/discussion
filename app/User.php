@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Notifications\VefiyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -43,4 +44,8 @@ class User extends Authenticatable
     public function reply(){
         return $this->hasMany(Reply::class) ;
     }
+    // //custom email notification
+    // public function sendEmailVerificationNotification(){
+    //     $this->notify(new VefiyEmail) ;
+    // }
 }

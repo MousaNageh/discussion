@@ -146,7 +146,7 @@
                                 <ul class="list-group">
                                     <?php $__currentLoopData = $channels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $channel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li class="list-group-item">
-                                    <a href="" class="text-decoration-none">
+                                    <a href="<?php echo e(route('discussion.index')); ?>?channel=<?php echo e($channel->slug); ?>" class="text-decoration-none">
                                         <?php echo e($channel->name); ?>
 
                                     </a>

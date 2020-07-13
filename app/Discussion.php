@@ -13,6 +13,17 @@ class Discussion extends Model
     {
         return "slug" ;
     }
+    public function scopefilterByChannels($builder){
+        if(request()->query("channel")){
+            //filter
+            $channel = Channel::where('slug',request()->query("channel"))->first() ;
+            if($channel){
+                return $builder->where("channel_id",$channel->id) ;
+            }
+        }
+        return $builder ;
+
+    }
     public function reply(){
         return $this->hasMany(Reply::class) ;
     }
@@ -23,6 +34,9 @@ class Discussion extends Model
         $this->update([
             "reply_id"=>$reply->id
         ]);
+        if($reply->owner->id==$this->author->id){
+            return ;
+        }
         $reply->owner->notify(new ReplayAsbestReply($reply->discussion)) ;
     }
 }

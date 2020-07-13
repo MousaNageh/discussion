@@ -11,8 +11,8 @@ use Illuminate\Support\Str ;
 class DiscussionController extends Controller
 {
     public function __construct()
-    {
-        $this->middleware("auth")->only(["create","store"]) ;
+    {    //ad "verified" to middleware if using verfing
+        $this->middleware(["auth"])->only(["create","store"]) ;
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class DiscussionController extends Controller
      */
     public function index()
     {
-        return view("discussions.index")->with("discussions",Discussion::paginate(2)) ;
+        return view("discussions.index")->with("discussions",Discussion::filterByChannels()->paginate(2)) ;
     }
 
     /**

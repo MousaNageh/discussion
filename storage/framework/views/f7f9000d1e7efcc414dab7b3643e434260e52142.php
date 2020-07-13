@@ -21,7 +21,7 @@
         </div>
     </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-<?php echo e($discussions->links()); ?>
+<?php echo e($discussions->appends(['channel'=>request()->query('channel')])->links()); ?>
 
 <?php $__env->stopSection(); ?>
 

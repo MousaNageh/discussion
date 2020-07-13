@@ -9,8 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReplayAsbestReply extends Notification
-{
+class ReplayAsbestReply extends Notification implements ShouldQueue{
     use Queueable;
 
     /**
